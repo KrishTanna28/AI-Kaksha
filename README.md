@@ -111,7 +111,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Ebrahim Gamdiwala** - *Initial work* - [ebrahimgamdiwala](https://github.com/ebrahimgamdiwala)
+- **Krish Tanna** - *Initial work* - [krishtanna](https://github.com/KrishTanna28)
 
 ## 🙏 Acknowledgments
 
@@ -121,7 +121,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email ebrahimgamdiwala@gmail.com or create an issue in the repository.
+For support, email krishttanna@gmail.com or create an issue in the repository.
 
 ---
 Made with ❤️ by AI Kaksha Team  
