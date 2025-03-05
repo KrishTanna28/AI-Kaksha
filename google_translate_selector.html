@@ -1,0 +1,78 @@
+<div class="google-translate-wrapper">
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false,
+                includedLanguages: 'ar,de,es,fr,hi,ja,ko,pt,ru,zh-CN,it,nl,pl,tr'
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <style>
+        /* Custom styling for Google Translate widget */
+        .google-translate-wrapper {
+            position: relative;
+            margin-left: 15px;
+            z-index: 1000;
+        }
+        
+        /* Hide Google Translate attribution */
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(68, 104, 242, 0.3);
+            background-color: #1A1E2D;
+            color: #C5C8E0;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .goog-te-gadget {
+            font-family: inherit;
+            color: #C5C8E0;
+            font-size: 0;
+        }
+        
+        .goog-te-gadget span {
+            display: none;
+        }
+        
+        .goog-te-gadget .goog-te-combo {
+            margin: 0 !important;
+        }
+        
+        /* Style the dropdown */
+        .goog-te-combo {
+            cursor: pointer;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .google-translate-wrapper {
+                margin-left: 10px;
+            }
+            
+            .goog-te-gadget .goog-te-combo {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Fix for RTL languages */
+        html[dir="rtl"] .google-translate-wrapper {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            html[dir="rtl"] .google-translate-wrapper {
+                margin-right: 10px;
+            }
+        }
+    </style>
+</div> 

@@ -1,0 +1,100 @@
+<div class="language-selector">
+    <div class="language-dropdown">
+        <button class="language-btn">
+            <span class="current-language">English</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+        <div class="language-dropdown-content">
+            <a href="#" data-lang="en" class="active">English</a>
+            <a href="#" data-lang="es">Español</a>
+            <a href="#" data-lang="fr">Français</a>
+            <a href="#" data-lang="de">Deutsch</a>
+            <a href="#" data-lang="zh">中文</a>
+            <a href="#" data-lang="hi">हिन्दी</a>
+            <a href="#" data-lang="ja">日本語</a>
+            <a href="#" data-lang="ar">العربية</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .language-selector {
+        position: relative;
+        margin-left: 20px;
+        z-index: 1000;
+    }
+    
+    .language-btn {
+        display: flex;
+        align-items: center;
+        background: rgba(68, 104, 242, 0.1);
+        color: #C5C8E0;
+        border: 1px solid rgba(68, 104, 242, 0.3);
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .language-btn:hover {
+        background: rgba(68, 104, 242, 0.2);
+    }
+    
+    .language-btn svg {
+        margin-left: 8px;
+        transition: transform 0.3s ease;
+    }
+    
+    .language-dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #1E293B;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        z-index: 1;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+    
+    .language-dropdown-content a {
+        color: #C5C8E0;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background 0.3s ease;
+        font-size: 14px;
+    }
+    
+    .language-dropdown-content a:hover {
+        background-color: #2D3748;
+    }
+    
+    .language-dropdown-content a.active {
+        background-color: rgba(68, 104, 242, 0.2);
+        font-weight: bold;
+    }
+    
+    .language-dropdown:hover .language-dropdown-content {
+        display: block;
+    }
+    
+    .language-dropdown:hover .language-btn svg {
+        transform: rotate(180deg);
+    }
+    
+    /* RTL support for Arabic */
+    html[dir="rtl"] .language-dropdown-content {
+        right: auto;
+        left: 0;
+    }
+    
+    html[dir="rtl"] .language-btn svg {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+</style> 

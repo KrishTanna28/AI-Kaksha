@@ -1,0 +1,356 @@
+.sidebar {
+    background-color: #1e293b;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transform: translateY(0) !important;
+}
+
+.sidebar.active {
+    transform: translateX(-100%) !important;
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(197, 200, 224, 0.1);
+}
+
+.sidebar-header h2 {
+    color: #c5c8e0;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(68, 104, 242, 0.5);
+    position: relative;
+}
+
+.sidebar-header h2::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    filter: blur(20px);
+    z-index: -1;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li {
+    margin-bottom: 5px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #c5c8e0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background-color: rgba(68, 104, 242, 0.1);
+    border-left-color: #4468f2;
+}
+
+.sidebar-nav a svg {
+    margin-right: 15px;
+    color: #b9d9ff;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(197, 200, 224, 0.1);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #c5c8e0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.logout-btn:hover {
+    background-color: rgba(248, 113, 113, 0.1);
+    color: #f87171;
+}
+
+.logout-btn svg {
+    margin-right: 10px;
+}
+
+.toggle-sidebar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: #4468f2;
+    color: #c5c8e0;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-sidebar:hover {
+    background-color: #5a7af5;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);  
+    }
+
+    main {
+        margin-left: 0 !important;
+    }
+}
+
+.dashboard-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.dashboard-row .card {
+    flex: 1;
+    min-width: 0; /* Prevents flex items from overflowing */
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .dashboard-row {
+        flex-direction: column;
+    }
+}
+
+.achievement-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.badges-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    flex: 1;
+    min-width: 150px;
+    text-align: left;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    position: relative;
+}
+
+.badge-icon {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 0 12px 0;
+}
+
+.badge h4 {
+    margin-bottom: 8px;
+}
+
+.badge p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.learning-path {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.path-row {
+    display: flex;
+    gap: 15px;
+}
+
+.path-item {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .badges-row, .path-row {
+        flex-direction: column;
+    }
+}
+
+.path-icon {
+    margin-right: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: 40px;
+}
+
+.path-content {
+    flex: 1;
+}
+
+.path-content h4 {
+    margin-bottom: 5px;
+}
+
+/* Ensure consistent spacing in all cards */
+.card h3 {
+    margin-bottom: 20px;
+}
+
+.stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stats-row {
+    display: flex;
+    gap: 15px;
+}
+
+.stat-item {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.stat-icon {
+    margin-right: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: 40px;
+    padding-top: 3px;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-info h4 {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .stats-row {
+        flex-direction: column;
+    }
+}
+
+/* AI Recommendations styling */
+.recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased from default spacing */
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 5px; /* Additional spacing between items */
+}
+
+.recommendation-icon {
+    margin-right: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: 40px;
+    padding-top: 3px;
+}
+
+.recommendation-content {
+    flex: 1;
+}
+
+.recommendation-content h4 {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.recommendation-content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Ensure this doesn't break the existing layout */
+main {
+    transition: margin-left 0.3s ease, margin-top 0.3s ease;
+}
+
+main.sidebar-hidden {
+    margin-left: 0;
+}
+  

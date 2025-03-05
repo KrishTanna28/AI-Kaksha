@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Kaksha{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Include sidebar if needed -->
+        {% if show_sidebar %}
+        {% include 'sidebar.html' %}
+        <div class="content-wrapper with-sidebar">
+        {% else %}
+        <div class="content-wrapper">
+        {% endif %}
+            
+            <header>
+                <div class="header-container">
+                    <div class="logo-container">
+                        <a href="/">
+                            <img src="/static/images/logo.png" alt="AI Kaksha Logo" class="logo">
+                            <span class="logo-text">AI Kaksha</span>
+                        </a>
+                    </div>
+                    <div class="header-right">
+                        <nav class="main-nav">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/tools">Tools</a></li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                            </ul>
+                        </nav>
+                        
+                        <!-- Google Translate Selector -->
+                        {% include 'google_translate_selector.html' %}
+                        
+                        <div class="user-menu">
+                            <a href="/login" class="login-btn">Login</a>
+                            <a href="/signup" class="signup-btn">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="content-container">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+
+            <footer>
+                <div class="footer-container">
+                    <div class="footer-logo">
+                        <img src="/static/images/logo.png" alt="AI Kaksha Logo" class="logo">
+                        <span class="logo-text">AI Kaksha</span>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-section">
+                            <h3>Quick Links</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/tools">Tools</a></li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h3>Legal</h3>
+                            <ul>
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h3>Connect</h3>
+                            <ul class="social-links">
+                                <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                                <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                                <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 AI Kaksha. All rights reserved.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

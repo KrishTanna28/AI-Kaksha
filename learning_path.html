@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Generator - AI Kaksha</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "gsap": "https://unpkg.com/gsap@3.12.4/index.js"
+        }
+    }
+    </script>
+    <style>
+        .learning-path-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .learning-path-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .learning-path-header img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .learning-path-header h1 {
+            font-size: 2.5rem;
+            color: #C5C8E0;
+            margin: 0;
+        }
+        
+        .learning-path-description {
+            font-size: 1.2rem;
+            color: #9DA0B8;
+            margin-bottom: 30px;
+        }
+        
+        .input-form {
+            background-color: #1E293B;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 1.1rem;
+            color: #C5C8E0;
+            margin-bottom: 8px;
+        }
+        
+        .form-group small {
+            display: block;
+            color: #9DA0B8;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #4468F2;
+            border-radius: 5px;
+            background-color: #1E293B;
+            color: #C5C8E0;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #B9D9FF;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(185, 217, 255, 0.25);
+        }
+        
+        .generate-btn {
+            background-color: #4468F2;
+            color: #C5C8E0;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+        
+        .generate-btn:hover {
+            background-color: #5A7AF5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .result-container {
+            background-color: #1E293B;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        
+        .result-container.active {
+            display: block;
+        }
+        
+        .flowchart-container {
+            width: 100%;
+            height: 600px;
+            background-color: #0E0E0F;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 600px;
+        }
+        
+        .loading-spinner {
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 5px solid #4468F2;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #C5C8E0;
+            font-size: 1.2rem;
+        }
+        
+        .download-btn {
+            background-color: #2A3A50;
+            color: #C5C8E0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .download-btn:hover {
+            background-color: #3A4A60;
+        }
+        
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #4468F2;
+            color: white;
+            font-size: 14px;
+            margin-left: 8px;
+            cursor: help;
+            position: relative;
+        }
+        
+        .info-tooltip {
+            position: absolute;
+            top: 25px;
+            right: -10px;
+            width: 250px;
+            background-color: #2A3A50;
+            color: #C5C8E0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: none;
+        }
+        
+        .info-icon:hover .info-tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-container"></div>
+    
+    <main>
+        <button class="toggle-sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <div class="learning-path-container">
+            <div class="learning-path-header">
+                <img src="target-icon.svg" alt="Target Icon" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjQ0NDQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIyIi8+PC9zdmc+'" />
+                <h1>Learning Path Generator</h1>
+            </div>
+            
+            <p class="learning-path-description">Create a personalized learning roadmap for any topic</p>
+            
+            <div class="input-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="topic">Enter your topic:</label>
+                        <input type="text" id="topic" placeholder="e.g., Machine Learning, Web Development, Digital Marketing">
+                        <small>Be specific about what you want to learn</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="objective">What's your objective?</label>
+                        <input type="text" id="objective" placeholder="e.g., Build a production-ready ML model in 3 months">
+                        <small>Include timeframe and specific goals</small>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="visualization">
+                            Select visualization style:
+                            <span class="info-icon">?
+                                <div class="info-tooltip">
+                                    Choose how your learning path will be visualized. Different styles offer various ways to understand the relationships between concepts.
+                                </div>
+                            </span>
+                        </label>
+                        <select id="visualization">
+                            <option value="digraph">Directed Graph</option>
+                            <option value="mindmap">Mind Map</option>
+                            <option value="timeline">Timeline</option>
+                            <option value="roadmap">Roadmap</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Your current experience level:</label>
+                        <select id="experience">
+                            <option value="beginner">Beginner - No prior knowledge</option>
+                            <option value="intermediate">Intermediate - Some familiarity</option>
+                            <option value="advanced">Advanced - Looking to specialize</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="generateBtn" class="generate-btn">Generate Learning Path</button>
+            </div>
+            
+            <div id="resultContainer" class="result-container">
+                <div id="loadingContainer" class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Generating your personalized learning path...</p>
+                </div>
+                
+                <div id="flowchartContainer" class="flowchart-container" style="display: none;"></div>
+                
+                <div class="action-buttons">
+                    <button id="downloadPNG" class="download-btn">Download as PNG</button>
+                    <button id="downloadPDF" class="download-btn">Download as PDF</button>
+                    <button id="sharePath" class="download-btn">Share Path</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load the sidebar
+            fetch('sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('sidebar-container').innerHTML = data;
+                });
+
+            // Toggle sidebar visibility
+            document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('active');
+                document.querySelector('main').classList.toggle('sidebar-hidden');
+            });
+            
+            // Generate learning path
+            document.getElementById('generateBtn').addEventListener('click', async function() {
+                const topic = document.getElementById('topic').value.trim();
+                const objective = document.getElementById('objective').value.trim();
+                const visualization = document.getElementById('visualization').value;
+                const experience = document.getElementById('experience').value;
+                
+                if (!topic || !objective) {
+                    alert('Please enter both a topic and an objective');
+                    return;
+                }
+                
+                // Show result container and loading state
+                const resultContainer = document.getElementById('resultContainer');
+                const loadingContainer = document.getElementById('loadingContainer');
+                const flowchartContainer = document.getElementById('flowchartContainer');
+                
+                resultContainer.classList.add('active');
+                loadingContainer.style.display = 'flex';
+                flowchartContainer.style.display = 'none';
+                
+                try {
+                    console.log('Sending request to /learning-path with data:', {
+                        topic, objective, visualization, experience
+                    });
+                    
+                    // Call the API endpoint
+                    const response = await fetch('/learning-path', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            topic,
+                            objective,
+                            visualization,
+                            experience
+                        })
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', Object.fromEntries([...response.headers.entries()]));
+                    
+                    // Check content type to handle different response formats
+                    const contentType = response.headers.get('content-type');
+                    console.log('Content-Type:', contentType);
+                    
+                    let responseData;
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        // Parse as JSON
+                        responseData = await response.json();
+                        console.log('Response data (JSON):', responseData);
+                    } else {
+                        // Get as text for debugging
+                        const textResponse = await response.text();
+                        console.log('Response data (text):', textResponse);
+                        
+                        // Try to parse as JSON anyway in case the content-type is wrong
+                        try {
+                            responseData = JSON.parse(textResponse);
+                            console.log('Successfully parsed text as JSON:', responseData);
+                        } catch (parseError) {
+                            console.error('Failed to parse response as JSON:', parseError);
+                            throw new Error(`Server returned non-JSON response: ${textResponse.substring(0, 100)}...`);
+                        }
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status} - ${JSON.stringify(responseData || {})}`);
+                    }
+                    
+                    if (!responseData || !responseData.image_url) {
+                        throw new Error('No diagram image received from server');
+                    }
+                    
+                    // Hide loading, show flowchart
+                    loadingContainer.style.display = 'none';
+                    flowchartContainer.style.display = 'block';
+                    
+                    // Display the static image and content
+                    displayLearningPath(responseData.image_url, responseData.content);
+                    
+                } catch (error) {
+                    console.error('Detailed error:', error);
+                    loadingContainer.innerHTML = `
+                        <p class="loading-text" style="color: #ff6b6b;">
+                            ${error.message || 'Error generating learning path. Please try again.'}
+                        </p>
+                        <p class="loading-text" style="color: #ff6b6b; font-size: 0.9rem;">
+                            Please check the browser console for more details.
+                        </p>
+                        <button class="generate-btn" onclick="location.reload()">Try Again</button>
+                    `;
+                }
+            });
+            
+            // Function to display the learning path
+            function displayLearningPath(imageUrl, content) {
+                const container = document.getElementById('flowchartContainer');
+                
+                // Create HTML for the learning path display
+                const html = `
+                    <div class="learning-path-result">
+                        <div class="diagram-image">
+                            <img src="${imageUrl}" alt="Learning Path Diagram" 
+                                 style="max-width: 100%; height: auto;"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=Learning+Path+Diagram+Not+Available'; console.error('Failed to load image: ${imageUrl}');">
+                        </div>
+                        <div class="learning-path-details">
+                            <h3>Learning Path Details</h3>
+                            <div class="content-text">
+                                ${content ? formatContent(content) : '<p>No detailed content available.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+                
+                // Enable download buttons
+                document.getElementById('downloadPNG').onclick = function() {
+                    window.open(imageUrl, '_blank');
+                };
+            }
+            
+            // Function to format the content as HTML
+            function formatContent(content) {
+                // Simple formatting: convert newlines to <br> and add some basic styling
+                return content
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/^/, '<p>')
+                    .replace(/$/, '</p>');
+            }
+            
+            // Download buttons functionality
+            document.getElementById('downloadPDF').addEventListener('click', function() {
+                // Implementation would use jsPDF or similar library
+                alert('PDF download functionality will be implemented with backend support');
+            });
+            
+            document.getElementById('sharePath').addEventListener('click', function() {
+                // Implementation would generate a shareable link
+                alert('Share functionality will be implemented with backend support');
+            });
+            
+            // Page transition effect
+            document.body.classList.add('page-loaded');
+            
+            document.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.tagName === 'A' && target.href && !target.href.startsWith('#') && !target.href.startsWith('javascript:')) {
+                    event.preventDefault();
+                    document.body.classList.add('page-transition');
+                    setTimeout(() => {
+                        window.location.href = target.href;
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
