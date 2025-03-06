@@ -54,7 +54,7 @@ cd AI-Kaksha
 - **Frontend**:
   - HTML5
   - CSS3
-  - JavaScript (Vanilla)
+  - JavaScript
   - WebSocket API
 
 - **Backend**:
